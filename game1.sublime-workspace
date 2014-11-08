@@ -1,0 +1,216 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"S",
+				"FlxSprite"
+			],
+			[
+				"FlxSprite",
+				"FlxSprite	flixel"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 78.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"package install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 408.0
+	},
+	"console":
+	{
+		"height": 144.0,
+		"history":
+		[
+			"fsdfsdf",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/E/Documents/.haxeflixel/game1/source"
+	],
+	"file_history":
+	[
+		"/E/Documents/.haxeflixel/game1/source/Player.hx",
+		"/E/Documents/.haxeflixel/game1/source/PlayState.hx",
+		"/E/Documents/Dropbox/(02) Personal Backup/.Work Documents/Database Structures/Assignments/Assignment 2/Submission 2/kfiol_assig2/kfiol_assig2/main.cpp",
+		"/E/Documents/Dropbox/(02) Personal Backup/.Work Documents/Database Structures/Assignments/Assignment 1/Submission 2/kfiol_Assign1.ccc",
+		"/E/Documents/Dropbox/(02) Personal Backup/.Work Documents/Database Structures/Assignments/Assignment 2/DBS-Assignment2/DBAssignment2-1/DBAssignment2-1/main.cpp",
+		"/E/Desktop/hashprog code files/hashprog code files/insert.c",
+		"/E/Desktop/hashprog code files/hashprog code files/create.c",
+		"/E/Desktop/hashprog code files/hashprog code files/delete.c",
+		"/E/Desktop/bmx/finalSource/PlayState.as",
+		"/E/Documents/.haxeflixel/game1/source/Main.hx",
+		"/E/Desktop/New folder/kfiol_assig2/kfiol_assig2/kfiol_assig2/main.cpp",
+		"/E/Desktop/mariano assig 2.txt",
+		"/E/Documents/Dropbox/(02) Personal Backup/.Work Documents/Database Structures/Assignments/Assignment 1/DBS-Assignment1/DBS-Assignment1/main.cpp",
+		"/E/Documents/Dropbox/(02) Personal Backup/.Work Documents/Database Structures/Assignments/Assignment 2/DBS-Assignment2/DBS-Assignment2/DBS-Assignment2/main.cpp",
+		"/E/Documents/Dropbox/(02) Personal Backup/.Work Documents/Database Structures/Assignments/Assignment 2/HashMe.cpp",
+		"/E/Documents/Guild Wars 2/AutoHotkey/GW2CM.ahk",
+		"/E/Desktop/STML-Proto-Game-140903a-added-FSM-to-ShipSprite/STML Proto Game 140903a added FSM to ShipSprite/First STML Game/TGame.h",
+		"/E/Desktop/STML-Proto-Game-140903a-added-FSM-to-ShipSprite/STML Proto Game 140903a added FSM to ShipSprite/First STML Game/LonestarSprite.h",
+		"/E/Desktop/google_5000000/google_5000000/google_5000000.txt",
+		"/E/Documents/.haxeflixel/game1/source/build.hxml",
+		"/E/Documents/.haxeflixel/game1/source/MenuState.hx",
+		"/C/Users/Kevin/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"already",
+			"CalcOverflow",
+			"traverse",
+			"find",
+			"mnOverFlowRecords",
+			"overflow",
+			"CalcOverflow",
+			"F",
+			"fiol",
+			"currentPos",
+			"velocity"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"CalcLines",
+			"pos"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 35.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": false,
+	"output.exec":
+	{
+		"height": 119.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "game1.sublime-project",
+	"replace":
+	{
+		"height": 72.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
