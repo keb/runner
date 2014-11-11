@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
 import flixel.group.FlxGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
@@ -16,39 +17,61 @@ import flixel.util.FlxPoint;
  */
 class PlayState extends FlxState
 {
+	//Player Variables
 	private var _player:Player;
-	private var _walls:FlxGroup;
-	private var _ground:FlxSprite;
+
+	//Ground Variables
+	private var _ground:FlxSpriteGroup;
+	private var _groundWidth:Float;
+
+	//Camera Variables
+	private var cameraOffset_x:Int = 100;
+	private var cameraOffset_y:Int = 350;
 
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void
 	{
+
+		/******* PLAYER ATTRIBUTES *******/
 		//20,400 is starting position
 		_player = new Player(FlxG.width/2,400);
+
 		//Scale x2 and update Hitbox
 		// _player.scale.set(3,3);
 		// _player.updateHitbox();
 
+
+		/******* CREATE GROUND *******/
+		//Intialize starting groundWidth for ground creation
+		_groundWidth = 0;
+
+		var poolSize = 50;
+		_ground = new FlxSpriteGroup(0,0,poolSize);
+
+		for(i in 0...poolSize){
+			var ground = new Ground();
+			//ground.kill();
+			_ground.add(ground);
+		}
+
+		while(_groundWidth < FlxG.width + 200){
+			trace(FlxG.width);
+			createGround();
+		}
+
+		/******* CREATE OBSTACLES *******/
+
+
+		/******* ADD ALL OBJECTS *******/
+		add(_player);
+		add(_ground);
+		
 		//bg color (still havent found out that value type tho)
 		FlxG.camera.bgColor = 0xff131c1b;
 
-		_walls = new FlxGroup();
-		_ground = new FlxSprite(0,FlxG.height - 16);
-
-		//Create Ground Sprites and add to _walls group
-		_ground.makeGraphic(FlxG.width, 16, FlxColor.WHITE);
-		_ground.immovable = true;
-		_walls.add(_ground);
-
-
-		add(_player);
-		add(_walls);
-
-		
-		//FlxG.camera.setBounds((_player.x - FlxG.width/2), 0, (_player.x + FlxG.width/2), FlxG.height, true);
-		FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER, 1);
+		// FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER, 1);
 		FlxG.worldBounds.set((_player.x - FlxG.width/2) + 16, 0, (_player.x + FlxG.width/2), FlxG.height);
 		super.create();
 	}
@@ -68,24 +91,38 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
+
+		//Trace Tests
 		trace(_player.y);
 		trace(_player.x);
-
-		// trace(_ground.y);
-		// trace(_ground.x);
-
+		trace(_ground);
 		trace(FlxG.worldBounds);
 		trace(FlxG.worldBounds.width);
 		trace(FlxG.worldBounds.x);
 
+		//Camera Movement
+		FlxG.camera.scroll.x = _player.x - cameraOffset_x;
+		FlxG.camera.scroll.y = _player.y - cameraOffset_y;
+
 		//Collisions
-		FlxG.collide(_player, _walls);
+		FlxG.collide(_player, _ground);
 
 		//Bounds Update
 		FlxG.worldBounds.set((_player.x - FlxG.width/2) + 16, 0, (_player.x + FlxG.width/2), FlxG.height);
 
 		//Ground Update
-		_ground.makeGraphic(Std.int(FlxG.worldBounds.width) + 1, 16, FlxColor.WHITE);
+		if(_groundWidth < FlxG.width + FlxG.camera.scroll.x){
+			createGround();
+		}
 		
 	}	
+
+	private function createGround():Void
+	{
+		var ground = _ground.recycle(Ground);
+		ground.x = _groundWidth;
+		ground.y = FlxG.height - 16;
+
+		_groundWidth += ground.width;
+	}
 }

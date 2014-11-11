@@ -10,7 +10,7 @@ import flixel.util.FlxAngle;
 class Player extends FlxSprite
 {
 	//making float variable for speed
-	public var speed:Float = 200;
+	public var speed:Float = 800;
 	public var gravity:Int = 800;
 	public var jumpSpeed:Int = 300;
 
@@ -20,20 +20,6 @@ class Player extends FlxSprite
 		//super calls parent class (FlxSprite)
 		super(X, Y);
 		makeGraphic(16,16, FlxColor.WHITE);
-
-		
-		/* FOR USE WITH SPRITE */
-			//tells sprite user player.png, that animated=true, each frame is 16x16
-		// loadGraphic(AssetPaths.player__png, true, 16, 16);
-
-			//don't flip when facing Left (because sprite already faces left)
-			//DO flip horizontally when facing Right
-		// setFacingFlip(FlxObject.LEFT, false, false);
-		// setFacingFlip(FlxObject.RIGHT, true, false);
-
-			//Define Animations
-		// animation.add("LR", [3,4,3,5], 6, false);
-
 
 		//Drag in HaxeFlixel slows down object when not moving
 		drag.set(speed * 8, speed * 8);
@@ -73,19 +59,6 @@ class Player extends FlxSprite
 		if(_left && _right)
 			_left = _right = false;
 
-		//Prevent falling off map (NOT NEEDED IN ENDLESS RUNNER duh)
-		// if(this.x <= 0)
-		// 	this.x = 0;
-		// if((this.x + this.width) > FlxG.width)
-		// 	this.x = FlxG.width - this.width;
-
-			/* FOR USE WITH SPRITE */
-		// if((velocity.x != 0 || velocity.y != 0)){
-		// 	switch(facing){
-		// 		case FlxObject.LEFT, FlxObject.RIGHT:
-		// 			animation.play("LR");
-		// 	}
-		// }
 	}
 
 	private function jump():Void{	//clean this shit up
