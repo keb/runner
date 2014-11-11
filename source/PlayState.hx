@@ -24,6 +24,9 @@ class PlayState extends FlxState
 	private var _ground:FlxSpriteGroup;
 	private var _groundWidth:Float;
 
+	//Obstacle/Enemy Variables
+	private var _obstacles:FlxSpriteGroup;
+
 	//Camera Variables
 	private var cameraOffset_x:Int = 100;
 	private var cameraOffset_y:Int = 350;
@@ -47,10 +50,10 @@ class PlayState extends FlxState
 		//Intialize starting groundWidth for ground creation
 		_groundWidth = 0;
 
-		var poolSize = 50;
-		_ground = new FlxSpriteGroup(0,0,poolSize);
+		var ground_poolSize = 50;
+		_ground = new FlxSpriteGroup(0,0,ground_poolSize);
 
-		for(i in 0...poolSize){
+		for(i in 0...ground_poolSize){
 			var ground = new Ground();
 			//ground.kill();
 			_ground.add(ground);
@@ -62,11 +65,21 @@ class PlayState extends FlxState
 		}
 
 		/******* CREATE OBSTACLES *******/
+		var obst_poolSize = 10;
+		_obstacles = new FlxSpriteGroup(0,0,obst_poolSize);
+
+		for(i in 0...obst_poolSize){
+			var obstacle = new Ground();
+			_obstacles.add(obstacle);
+		}
+
+
 
 
 		/******* ADD ALL OBJECTS *******/
 		add(_player);
 		add(_ground);
+		add(_obstacles);
 		
 		//bg color (still havent found out that value type tho)
 		FlxG.camera.bgColor = 0xff131c1b;
@@ -96,6 +109,7 @@ class PlayState extends FlxState
 		trace(_player.y);
 		trace(_player.x);
 		trace(_ground);
+		trace(_groundWidth);
 		trace(FlxG.worldBounds);
 		trace(FlxG.worldBounds.width);
 		trace(FlxG.worldBounds.x);
@@ -106,6 +120,7 @@ class PlayState extends FlxState
 
 		//Collisions
 		FlxG.collide(_player, _ground);
+		FlxG.collide(_player, _obstacles);
 
 		//Bounds Update
 		FlxG.worldBounds.set((_player.x - FlxG.width/2) + 16, 0, (_player.x + FlxG.width/2), FlxG.height);
@@ -113,6 +128,11 @@ class PlayState extends FlxState
 		//Ground Update
 		if(_groundWidth < FlxG.width + FlxG.camera.scroll.x){
 			createGround();
+		}
+
+		//Obstacles Update
+		if(_groundWidth % 600 == 0){
+			createObstacle();
 		}
 		
 	}	
@@ -124,5 +144,13 @@ class PlayState extends FlxState
 		ground.y = FlxG.height - 16;
 
 		_groundWidth += ground.width;
+	}
+
+	private function createObstacle():Void
+	{
+		trace("HIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHI");
+		var obstacle = _obstacles.recycle(Ground);
+		obstacle.x = _groundWidth + 20;
+		obstacle.y = FlxG.height - 32;
 	}
 }
