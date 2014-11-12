@@ -38,8 +38,8 @@ class PlayState extends FlxState
 	{
 
 		/******* PLAYER ATTRIBUTES *******/
-		//20,400 is starting position
-		_player = new Player(FlxG.width/2,400);
+		//starting position
+		_player = new Player(FlxG.width/2, 400);
 
 		//Scale x2 and update Hitbox
 		// _player.scale.set(3,3);
@@ -148,7 +148,6 @@ class PlayState extends FlxState
 
 	private function createObstacle():Void
 	{
-		trace("HIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHIHI");
 		var obstacle = _obstacles.recycle(Ground);
 		obstacle.x = _groundWidth + 20;
 		obstacle.y = FlxG.height - 32;

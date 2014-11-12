@@ -24,15 +24,21 @@ class Player extends FlxSprite
 		//Drag in HaxeFlixel slows down object when not moving
 		drag.set(speed * 8, speed * 8);
 		maxVelocity.set(speed,jumpSpeed);
+		
 		//Set gravity
 		acceleration.y = gravity;
 	}
+
+	// public function sword(X:Float=0, Y:Float=0){
+	// 	makeGraphic(16,2, FlxColor.White);
+	// }
 
 	//Field update should be declared with 'override' since it is inherited from superclass
 	override public function update():Void
 	{
 		updateMovement();
 		jump();
+		attack();
 		super.update();
 	}	
 	
@@ -91,6 +97,17 @@ class Player extends FlxSprite
 		//test purposes
 		// trace(isTouching(FlxObject.FLOOR));
 		// trace(FlxG.elapsed);
+
+	}
+
+	private function attack():Void{
+		var _attack:Bool = false;
+
+		//Controls
+		_attack = FlxG.keys.anyPressed(["C"]);
+		if(_attack){
+			trace("attack");
+		}
 
 	}
 
