@@ -1,4 +1,4 @@
-Haxe Endless Runner Proj
+Haxe Endless Runner Project
 =========================
 
 lets make an endless runner
