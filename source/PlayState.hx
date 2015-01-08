@@ -11,6 +11,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 import flixel.util.FlxColor;
 import flixel.util.FlxPoint;
+import flixel.effects.particles.FlxEmitterExt;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -26,6 +27,8 @@ class PlayState extends FlxState
 
 	//Obstacle/Enemy Variables
 	private var _obstacles:FlxSpriteGroup;
+	private var _explosion:FlxEmitterExt;
+	// private var _particle:FlxSprite;
 
 	//Camera Variables
 	private var cameraOffset_x:Int = 100;
@@ -73,6 +76,18 @@ class PlayState extends FlxState
 			_obstacles.add(obstacle);
 		}
 
+		/******* CREATE PARTICLE EMITTERS *******/
+
+		//setMotion(Angle:Float, Distance:Float, Lifespan:Float, ?AngleRange:Float = 0, ?DistanceRange:Float = 0, ?LifespanRange:Float = 0):Void
+
+		_explosion = new FlxEmitterExt();
+
+		_explosion.setRotation(0,0);
+		_explosion.setXSpeed(300,500);
+		_explosion.setYSpeed(300,500);
+		_explosion.setMotion(45, 350, 0.4, 360, 450, 1.2);
+		_explosion.makeParticles("assets/images/particle.png", 100, 0, false, 0);
+		_explosion.setAlpha(1,1,0,0);
 
 
 
@@ -80,6 +95,7 @@ class PlayState extends FlxState
 		add(_player);
 		add(_ground);
 		add(_obstacles);
+		add(_explosion);
 		
 		//bg color (still havent found out that value type tho)
 		FlxG.camera.bgColor = 0xff131c1b;
@@ -120,7 +136,7 @@ class PlayState extends FlxState
 
 		//Collisions
 		FlxG.collide(_player, _ground);
-		FlxG.collide(_player, _obstacles);
+		FlxG.overlap(_player, _obstacles, playerTouchObstacle);
 
 		//Bounds Update
 		FlxG.worldBounds.set((_player.x - FlxG.width/2) + 16, 0, (_player.x + FlxG.width/2), FlxG.height);
@@ -148,8 +164,25 @@ class PlayState extends FlxState
 
 	private function createObstacle():Void
 	{
-		var obstacle = _obstacles.recycle(Ground);
+		var obstacle = _obstacles.recycle(Enemy);
 		obstacle.x = _groundWidth + 20;
 		obstacle.y = FlxG.height - 32;
+	}
+
+	private function playerTouchObstacle(P:Player, E:Enemy):Void
+	{
+		//trace("TOUCHED");
+		explode(E.x, E.y);
+		E.kill();
+	}
+
+	private function explode(X:Float = 0, Y:Float = 0):Void
+	{
+		if(_explosion.visible){
+			_explosion.x = X;
+			_explosion.y = Y;
+			_explosion.start(true, 2, 0, 400);
+			_explosion.update();
+		}
 	}
 }

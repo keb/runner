@@ -10,7 +10,7 @@ import flixel.util.FlxAngle;
 class Player extends FlxSprite
 {
 	//making float variable for speed
-	public var speed:Float = 800;
+	public var speed:Float = 600;
 	public var gravity:Int = 800;
 	public var jumpSpeed:Int = 300;
 
@@ -36,9 +36,11 @@ class Player extends FlxSprite
 	//Field update should be declared with 'override' since it is inherited from superclass
 	override public function update():Void
 	{
+		//Player Controls
 		updateMovement();
 		jump();
 		attack();
+
 		super.update();
 	}	
 	
