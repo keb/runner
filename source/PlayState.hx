@@ -34,6 +34,10 @@ class PlayState extends FlxState
 	private var cameraOffset_x:Int = 100;
 	private var cameraOffset_y:Int = 350;
 
+	//HUD Variables
+	private var _hud:HUD;
+	private var _score:Int = 0;
+
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
@@ -89,19 +93,22 @@ class PlayState extends FlxState
 		_explosion.makeParticles("assets/images/particle.png", 100, 0, false, 0);
 		_explosion.setAlpha(1,1,0,0);
 
-
+		/******* CREATE HUD *******/
+		_hud = new HUD();
 
 		/******* ADD ALL OBJECTS *******/
 		add(_player);
 		add(_ground);
 		add(_obstacles);
 		add(_explosion);
+		add(_hud);
 		
 		//bg color (still havent found out that value type tho)
 		FlxG.camera.bgColor = 0xff131c1b;
 
 		// FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER, 1);
 		FlxG.worldBounds.set((_player.x - FlxG.width/2) + 16, 0, (_player.x + FlxG.width/2), FlxG.height);
+		
 		super.create();
 	}
 	
@@ -171,9 +178,11 @@ class PlayState extends FlxState
 
 	private function playerTouchObstacle(P:Player, E:Enemy):Void
 	{
-		//trace("TOUCHED");
 		explode(E.x, E.y);
 		E.kill();
+
+		_score++;
+		_hud.updateHUD(_score);
 	}
 
 	private function explode(X:Float = 0, Y:Float = 0):Void
