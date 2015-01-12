@@ -120,7 +120,6 @@ class Player extends FlxSprite
 		_attack = FlxG.keys.anyPressed(["C"]);
 
 		if(_attack && _attackDuration < .20){
-			trace("attack");
 			sword.x = x + 28;
 			sword.y = y;
 			sword.visible = true;
@@ -129,7 +128,7 @@ class Player extends FlxSprite
 		if(_attack){
 			_attackDuration+= FlxG.elapsed;
 		}
-		
+
 		else{
 			_attackDuration = 0;
 		}

@@ -30,7 +30,6 @@ class PlayState extends FlxState
 	//Obstacle/Enemy Variables
 	private var _obstacles:FlxSpriteGroup;
 	private var _explosion:FlxEmitterExt;
-	// private var _particle:FlxSprite;
 
 	//Camera Variables
 	private var cameraOffset_x:Int = 100;
@@ -38,7 +37,6 @@ class PlayState extends FlxState
 
 	//HUD Variables
 	private var _hud:HUD;
-	private var _score:Int = 0;
 
 	/**
 	 * Function that is called up when to state is created to set it up. 
@@ -50,7 +48,7 @@ class PlayState extends FlxState
 		//starting position
 		_player = new Player(FlxG.width/2, 400);
 
-		//Scale x2 and update Hitbox
+		//Scale x2 and update Hitbox for scale resize
 		// _player.scale.set(3,3);
 		// _player.updateHitbox();
 
@@ -96,6 +94,7 @@ class PlayState extends FlxState
 		_explosion.setAlpha(1,1,0,0);
 
 		/******* CREATE HUD *******/
+		Reg.score = 0;
 		_hud = new HUD();
 
 		/******* ADD ALL OBJECTS *******/
@@ -169,6 +168,9 @@ class PlayState extends FlxState
 				FlxG.switchState(new PlayState());
 			}
 		}
+
+		//HUD Update
+		_hud.updateHUD(Reg.score);
 		
 	}	
 
@@ -199,9 +201,6 @@ class PlayState extends FlxState
 		trace("HIT");
 		explode(E.x, E.y);
 		E.kill();
-
-		_score += 10;
-		_hud.updateHUD(_score);
 	}
 
 	private function explode(X:Float = 0, Y:Float = 0):Void
