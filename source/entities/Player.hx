@@ -16,7 +16,7 @@ class Player extends FlxSprite
 	public var sword:FlxSprite;
 
 	private var _jumpDuration:Float = -1;
-	
+	private var _attackDuration:Float = 0;
 
 	public function new(X:Float=0, Y:Float=0){
 		//super calls parent class (FlxSprite)
@@ -118,11 +118,19 @@ class Player extends FlxSprite
 
 		//Controls
 		_attack = FlxG.keys.anyPressed(["C"]);
-		if(_attack){
+
+		if(_attack && _attackDuration < .20){
 			trace("attack");
 			sword.x = x + 28;
 			sword.y = y;
 			sword.visible = true;
+		}
+
+		if(_attack){
+			_attackDuration+= FlxG.elapsed;
+		}
+		else{
+			_attackDuration = 0;
 		}
 
 	}
