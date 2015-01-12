@@ -13,8 +13,10 @@ class Player extends FlxSprite
 	public var speed:Float = 600;
 	public var gravity:Int = 800;
 	public var jumpSpeed:Int = 300;
+	public var sword:FlxSprite;
 
 	private var _jumpDuration:Float = -1;
+	
 
 	public function new(X:Float=0, Y:Float=0){
 		//super calls parent class (FlxSprite)
@@ -22,11 +24,19 @@ class Player extends FlxSprite
 		makeGraphic(16,16, FlxColor.WHITE);
 
 		//Drag in HaxeFlixel slows down object when not moving
-		drag.set(speed * 8, speed * 8);
+		drag.set(speed * 5, speed * 5);
 		maxVelocity.set(speed,jumpSpeed);
 		
 		//Set gravity
+		acceleration.x = 0;
 		acceleration.y = gravity;
+
+		//Create Sword Sprite
+		sword = new FlxSprite();
+		sword.loadGraphic(AssetPaths.slash__png, false, 8, 22);
+		sword.scale.set(2,2);
+		sword.visible = false;
+		FlxG.state.add(sword);
 	}
 
 	// public function sword(X:Float=0, Y:Float=0){
@@ -104,11 +114,15 @@ class Player extends FlxSprite
 
 	private function attack():Void{
 		var _attack:Bool = false;
+		sword.visible = false;
 
 		//Controls
 		_attack = FlxG.keys.anyPressed(["C"]);
 		if(_attack){
 			trace("attack");
+			sword.x = x + 28;
+			sword.y = y;
+			sword.visible = true;
 		}
 
 	}

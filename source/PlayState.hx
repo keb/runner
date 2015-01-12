@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
 import flixel.group.FlxGroup;
@@ -20,6 +21,7 @@ class PlayState extends FlxState
 {
 	//Player Variables
 	private var _player:Player;
+	private var _alive:Bool = true;
 
 	//Ground Variables
 	private var _ground:FlxSpriteGroup;
@@ -76,7 +78,7 @@ class PlayState extends FlxState
 		_obstacles = new FlxSpriteGroup(0,0,obst_poolSize);
 
 		for(i in 0...obst_poolSize){
-			var obstacle = new Ground();
+			var obstacle = new Enemy();
 			_obstacles.add(obstacle);
 		}
 
@@ -129,13 +131,13 @@ class PlayState extends FlxState
 		super.update();
 
 		//Trace Tests
-		trace(_player.y);
-		trace(_player.x);
-		trace(_ground);
-		trace(_groundWidth);
-		trace(FlxG.worldBounds);
-		trace(FlxG.worldBounds.width);
-		trace(FlxG.worldBounds.x);
+		// trace(_player.y);
+		// trace(_player.x);
+		// trace(_ground);
+		// trace(_groundWidth);
+		// trace(FlxG.worldBounds);
+		// trace(FlxG.worldBounds.width);
+		// trace(FlxG.worldBounds.x);
 
 		//Camera Movement
 		FlxG.camera.scroll.x = _player.x - cameraOffset_x;
@@ -144,6 +146,7 @@ class PlayState extends FlxState
 		//Collisions
 		FlxG.collide(_player, _ground);
 		FlxG.overlap(_player, _obstacles, playerTouchObstacle);
+		FlxG.overlap(_player.sword, _obstacles, playerAttackObstacle);
 
 		//Bounds Update
 		FlxG.worldBounds.set((_player.x - FlxG.width/2) + 16, 0, (_player.x + FlxG.width/2), FlxG.height);
@@ -154,8 +157,17 @@ class PlayState extends FlxState
 		}
 
 		//Obstacles Update
-		if(_groundWidth % 600 == 0){
+		if(_groundWidth % 400 == 0){
 			createObstacle();
+		}
+
+		//PlayState Update
+		//If Dead, Press R to Restart
+		if(!_alive){
+			if(FlxG.keys.justPressed.R){
+				trace("FEHEF");
+				FlxG.switchState(new PlayState());
+			}
 		}
 		
 	}	
@@ -178,10 +190,17 @@ class PlayState extends FlxState
 
 	private function playerTouchObstacle(P:Player, E:Enemy):Void
 	{
+		explode(P.x, P.y);
+		P.kill();
+		_alive = false;
+	}
+
+	private function playerAttackObstacle(S:FlxSprite, E:Enemy):Void{
+		trace("HIT");
 		explode(E.x, E.y);
 		E.kill();
 
-		_score++;
+		_score += 10;
 		_hud.updateHUD(_score);
 	}
 
