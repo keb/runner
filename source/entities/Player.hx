@@ -129,6 +129,7 @@ class Player extends FlxSprite
 		if(_attack){
 			_attackDuration+= FlxG.elapsed;
 		}
+		
 		else{
 			_attackDuration = 0;
 		}
