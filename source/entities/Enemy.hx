@@ -15,10 +15,5 @@ class Enemy extends FlxSprite
 		super(X,Y);
 		makeGraphic(16,16, FlxColor.WHITE);
 	}
-
-	override public function kill():Void{
-		super.kill();
-		Reg.score++;
-	}
 	
 }

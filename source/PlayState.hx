@@ -67,7 +67,7 @@ class PlayState extends FlxState
 		}
 
 		while(_groundWidth < FlxG.width + 200){
-			trace(FlxG.width);
+			// trace(FlxG.width);
 			createGround();
 		}
 
@@ -110,6 +110,8 @@ class PlayState extends FlxState
 		// FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER, 1);
 		FlxG.worldBounds.set((_player.x - FlxG.width/2) + 16, 0, (_player.x + FlxG.width/2), FlxG.height);
 		
+		createObstacle();
+
 		super.create();
 	}
 	
@@ -156,7 +158,7 @@ class PlayState extends FlxState
 		}
 
 		//Obstacles Update
-		if(_groundWidth % 400 == 0){
+		if(_groundWidth % 600 == 0){
 			createObstacle();
 		}
 
@@ -164,7 +166,6 @@ class PlayState extends FlxState
 		//If Dead, Press R to Restart
 		if(!_alive){
 			if(FlxG.keys.justPressed.R){
-				trace("FEHEF");
 				FlxG.switchState(new PlayState());
 			}
 		}
@@ -198,9 +199,9 @@ class PlayState extends FlxState
 	}
 
 	private function playerAttackObstacle(S:FlxSprite, E:Enemy):Void{
-		trace("HIT");
 		explode(E.x, E.y);
 		E.kill();
+		Reg.score++;
 	}
 
 	private function explode(X:Float = 0, Y:Float = 0):Void
