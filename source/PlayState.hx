@@ -158,7 +158,7 @@ class PlayState extends FlxState
 		}
 
 		//Obstacles Update
-		if(_groundWidth % 600 == 0){
+		if(_groundWidth % 100 == 0){
 			createObstacle();
 		}
 
@@ -178,6 +178,7 @@ class PlayState extends FlxState
 	private function createGround():Void
 	{
 		var ground = _ground.recycle(Ground);
+		trace("created");
 		ground.x = _groundWidth;
 		ground.y = FlxG.height - 16;
 
@@ -199,6 +200,7 @@ class PlayState extends FlxState
 	}
 
 	private function playerAttackObstacle(S:FlxSprite, E:Enemy):Void{
+		trace("kill");
 		explode(E.x, E.y);
 		E.kill();
 		Reg.score++;
