@@ -30,6 +30,7 @@ class PlayState extends FlxState
 	//Obstacle/Enemy Variables
 	private var _obstacles:FlxSpriteGroup;
 	private var _explosion:FlxEmitterExt;
+	private var _timer:haxe.Timer;
 
 	//Camera Variables
 	private var cameraOffset_x:Int = 100;
@@ -43,6 +44,8 @@ class PlayState extends FlxState
 	 */
 	override public function create():Void
 	{
+
+		_timer = new haxe.Timer(1000);
 
 		/******* PLAYER ATTRIBUTES *******/
 		//starting position
@@ -71,7 +74,7 @@ class PlayState extends FlxState
 			createGround();
 		}
 
-		/******* CREATE OBSTACLES *******/
+		/******* CREATE OBSTACLE POOL *******/
 		var obst_poolSize = 10;
 		_obstacles = new FlxSpriteGroup(0,0,obst_poolSize);
 
@@ -109,8 +112,6 @@ class PlayState extends FlxState
 
 		// FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER, 1);
 		FlxG.worldBounds.set((_player.x - FlxG.width/2) + 16, 0, (_player.x + FlxG.width/2), FlxG.height);
-		
-		createObstacle();
 
 		super.create();
 	}
@@ -158,9 +159,11 @@ class PlayState extends FlxState
 		}
 
 		//Obstacles Update
-		if(_groundWidth % 100 == 0){
+		_timer.run = function():Void{
 			createObstacle();
-		}
+		};
+
+		callEnemy(); //used for testing; spawn enemy at will
 
 		//PlayState Update
 		//If Dead, Press R to Restart
@@ -178,7 +181,6 @@ class PlayState extends FlxState
 	private function createGround():Void
 	{
 		var ground = _ground.recycle(Ground);
-		trace("created");
 		ground.x = _groundWidth;
 		ground.y = FlxG.height - 16;
 
@@ -187,6 +189,7 @@ class PlayState extends FlxState
 
 	private function createObstacle():Void
 	{
+		trace("created");
 		var obstacle = _obstacles.recycle(Enemy);
 		obstacle.x = _groundWidth + 20;
 		obstacle.y = FlxG.height - 32;
@@ -197,6 +200,7 @@ class PlayState extends FlxState
 		explode(P.x, P.y);
 		P.kill();
 		_alive = false;
+		_timer.stop();
 	}
 
 	private function playerAttackObstacle(S:FlxSprite, E:Enemy):Void{
@@ -213,6 +217,14 @@ class PlayState extends FlxState
 			_explosion.y = Y;
 			_explosion.start(true, 2, 0, 400);
 			_explosion.update();
+		}
+	}
+
+	private function callEnemy():Void
+	{
+		if(FlxG.keys.anyJustPressed(["E"])){
+			trace("spawn enemy");
+			createObstacle();
 		}
 	}
 }
