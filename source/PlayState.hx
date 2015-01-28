@@ -122,6 +122,11 @@ class PlayState extends FlxState
 	 */
 	override public function destroy():Void
 	{
+		_player.destroy();
+		_ground.destroy();
+		_obstacles.destroy();
+		_explosion.destroy();
+		_hud.destroy();
 		super.destroy();
 	}
 
