@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.util.FlxColor;
 import flixel.util.FlxAngle;
+import flixel.system.FlxSound;
 
 class Player extends FlxSprite
 {
@@ -17,6 +18,8 @@ class Player extends FlxSprite
 
 	private var _jumpDuration:Float = -1;
 	private var _attackDuration:Float = 0;
+	private var _sndSword:FlxSound;
+	private var _sndJump:FlxSound;
 
 	public function new(X:Float=0, Y:Float=0){
 		//super calls parent class (FlxSprite)
@@ -37,6 +40,10 @@ class Player extends FlxSprite
 		sword.scale.set(2,2);
 		sword.visible = false;
 		FlxG.state.add(sword);
+
+		//Load Sounds
+		_sndSword = FlxG.sound.load(AssetPaths.sword__wav);
+		_sndJump = FlxG.sound.load(AssetPaths.jump__wav);
 	}
 
 	// public function sword(X:Float=0, Y:Float=0){
@@ -88,7 +95,7 @@ class Player extends FlxSprite
 		if(_jump && isTouching(FlxObject.FLOOR)){
 			//FlxObject.FLOOR: Special-case constant meaning down, used mainly by allowCollisions and touching.
 			_jumpDuration = 0; //just started jumping
-
+			_sndJump.play();
 		}
 
 		if(_jumpDuration >= 0 && _jumpDuration < 0.30){
@@ -118,6 +125,10 @@ class Player extends FlxSprite
 
 		//Controls
 		_attack = FlxG.keys.anyPressed(["C"]);
+
+		if(_attack && _attackDuration < .01){
+			_sndSword.play();
+		}
 
 		if(_attack && _attackDuration < .20){
 			sword.x = x + 28;

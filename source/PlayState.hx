@@ -13,6 +13,7 @@ import flixel.util.FlxMath;
 import flixel.util.FlxColor;
 import flixel.util.FlxPoint;
 import flixel.effects.particles.FlxEmitterExt;
+import flixel.system.FlxSound;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -39,6 +40,10 @@ class PlayState extends FlxState
 	//HUD Variables
 	private var _hud:HUD;
 
+	//Sound Variables
+	private var _sndDie:FlxSound;
+	private var _sndKill:FlxSound;
+
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
@@ -46,6 +51,9 @@ class PlayState extends FlxState
 	{
 
 		_timer = new haxe.Timer(1000);
+		FlxG.sound.playMusic(AssetPaths.thepoorghosts__ogg, 1, true);
+		_sndDie = FlxG.sound.load(AssetPaths.die__wav);
+		_sndKill = FlxG.sound.load(AssetPaths.kill__wav);
 
 		/******* PLAYER ATTRIBUTES *******/
 		//starting position
@@ -198,6 +206,7 @@ class PlayState extends FlxState
 	private function playerTouchObstacle(P:Player, E:Enemy):Void
 	{
 		explode(P.x, P.y);
+		_sndDie.play();
 		P.kill();
 		_alive = false;
 		_timer.stop();
@@ -206,6 +215,7 @@ class PlayState extends FlxState
 	private function playerAttackObstacle(S:FlxSprite, E:Enemy):Void{
 		trace("kill");
 		explode(E.x, E.y);
+		_sndKill.play();
 		E.kill();
 		Reg.score++;
 	}
