@@ -31,6 +31,7 @@ class PlayState extends FlxState
 	//Obstacle/Enemy Variables
 	private var _obstacles:FlxSpriteGroup;
 	private var _explosion:FlxEmitterExt;
+	private var _spawn:Bool;
 	private var _timer:haxe.Timer;
 
 	//Camera Variables
@@ -44,16 +45,22 @@ class PlayState extends FlxState
 	private var _sndDie:FlxSound;
 	private var _sndKill:FlxSound;
 
+	private var _timeStart:Float;
+	private var _currentTime:Float;
+	private var _bpm = 141;
+
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void
 	{
 
-		_timer = new haxe.Timer(1000);
-		FlxG.sound.playMusic(AssetPaths.thepoorghosts__ogg, 1, true);
-		_sndDie = FlxG.sound.load(AssetPaths.die__wav);
-		_sndKill = FlxG.sound.load(AssetPaths.kill__wav);
+		/******* CREATE TIMER *******/
+		_timer = new haxe.Timer(1000); //ms
+
+		_timeStart = FlxG.elapsed * 1000;
+		_currentTime = FlxG.elapsed * 1000;
+		_spawn = true;
 
 		/******* PLAYER ATTRIBUTES *******/
 		//starting position
@@ -108,6 +115,12 @@ class PlayState extends FlxState
 		Reg.score = 0;
 		_hud = new HUD();
 
+		/******* CREATE SOUND *******/
+
+		FlxG.sound.playMusic(AssetPaths.atownsyear__wav, 1, true);
+		_sndDie = FlxG.sound.load(AssetPaths.die__wav);
+		_sndKill = FlxG.sound.load(AssetPaths.kill__wav);
+
 		/******* ADD ALL OBJECTS *******/
 		add(_player);
 		add(_ground);
@@ -145,6 +158,8 @@ class PlayState extends FlxState
 	{
 		super.update();
 
+		
+
 		//Trace Tests
 		// trace(_player.y);
 		// trace(_player.x);
@@ -172,9 +187,12 @@ class PlayState extends FlxState
 		}
 
 		//Obstacles Update
-		_timer.run = function():Void{
+		_currentTime += FlxG.elapsed * 1000;
+
+		if(_alive && _currentTime - _timeStart >= 60000/_bpm){
 			createObstacle();
-		};
+			_timeStart += 60000/_bpm;
+		}
 
 		callEnemy(); //used for testing; spawn enemy at will
 
@@ -187,7 +205,9 @@ class PlayState extends FlxState
 		}
 
 		//HUD Update
-		_hud.updateHUD(Reg.score);
+		_hud.updateHUD(Reg.score, _alive);
+
+
 		
 	}	
 

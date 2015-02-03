@@ -31,7 +31,7 @@ class Player extends FlxSprite
 		maxVelocity.set(speed,jumpSpeed);
 		
 		//Set gravity
-		acceleration.x = 0;
+		acceleration.x = drag.x;
 		acceleration.y = gravity;
 
 		//Create Sword Sprite
@@ -42,8 +42,8 @@ class Player extends FlxSprite
 		FlxG.state.add(sword);
 
 		//Load Sounds
-		_sndSword = FlxG.sound.load(AssetPaths.sword__wav);
-		_sndJump = FlxG.sound.load(AssetPaths.jump__wav);
+		_sndSword = FlxG.sound.load(AssetPaths.sword__wav, 0.6);
+		_sndJump = FlxG.sound.load(AssetPaths.jump__wav, 0.3);
 	}
 
 	// public function sword(X:Float=0, Y:Float=0){
@@ -54,7 +54,6 @@ class Player extends FlxSprite
 	override public function update():Void
 	{
 		//Player Controls
-		updateMovement();
 		jump();
 		attack();
 
