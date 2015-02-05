@@ -46,10 +46,6 @@ class Player extends FlxSprite
 		_sndJump = FlxG.sound.load(AssetPaths.jump__wav, 0.3);
 	}
 
-	// public function sword(X:Float=0, Y:Float=0){
-	// 	makeGraphic(16,2, FlxColor.White);
-	// }
-
 	//Field update should be declared with 'override' since it is inherited from superclass
 	override public function update():Void
 	{
@@ -111,10 +107,6 @@ class Player extends FlxSprite
 		if(FlxG.keys.anyJustReleased(["UP"])){
 			_jumpDuration = -1;
 		}
-
-		//test purposes
-		// trace(isTouching(FlxObject.FLOOR));
-		// trace(FlxG.elapsed);
 
 	}
 

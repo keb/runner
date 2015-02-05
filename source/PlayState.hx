@@ -29,9 +29,8 @@ class PlayState extends FlxState
 	private var _groundWidth:Float;
 
 	//Obstacle/Enemy Variables
-	private var _obstacles:FlxSpriteGroup;
+	private var _enemies:FlxSpriteGroup;
 	private var _explosion:FlxEmitterExt;
-	private var _spawn:Bool;
 	private var _timer:haxe.Timer;
 
 	//Camera Variables
@@ -47,7 +46,7 @@ class PlayState extends FlxState
 
 	private var _timeStart:Float;
 	private var _currentTime:Float;
-	private var _bpm = 141;
+	private var _bpm = 141; //bpm of music track
 
 	/**
 	 * Function that is called up when to state is created to set it up. 
@@ -55,55 +54,50 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 
-		/******* CREATE TIMER *******/
-		_timer = new haxe.Timer(1000); //ms
+		/* create timer 		*/
 
 		_timeStart = FlxG.elapsed * 1000;
 		_currentTime = FlxG.elapsed * 1000;
-		_spawn = true;
 
-		/******* PLAYER ATTRIBUTES *******/
+
+		/* player attributes 		*/
+
 		//starting position
 		_player = new Player(FlxG.width/2, 400);
+		add(_player);
 
-		//Scale x2 and update Hitbox for scale resize
-		// _player.scale.set(3,3);
-		// _player.updateHitbox();
+		/* create ground pool		*/
 
-
-		/******* CREATE GROUND *******/
-		//Intialize starting groundWidth for ground creation
-		_groundWidth = 0;
-
+		//Intialize starting groundWidth & poolsize for ground creation
 		var ground_poolSize = 50;
+		_groundWidth = 0;
 		_ground = new FlxSpriteGroup(0,0,ground_poolSize);
 
 		for(i in 0...ground_poolSize){
 			var ground = new Ground();
-			//ground.kill();
 			_ground.add(ground);
 		}
 
 		while(_groundWidth < FlxG.width + 200){
-			// trace(FlxG.width);
 			createGround();
 		}
 
-		/******* CREATE OBSTACLE POOL *******/
-		var obst_poolSize = 10;
-		_obstacles = new FlxSpriteGroup(0,0,obst_poolSize);
+		add(_ground);
 
-		for(i in 0...obst_poolSize){
-			var obstacle = new Enemy();
-			_obstacles.add(obstacle);
+		/* create enemy pool 		*/
+		var enemy_poolSize = 10;
+		_enemies = new FlxSpriteGroup(0,0,enemy_poolSize);
+
+		for(i in 0...enemy_poolSize){
+			var enemy = new Enemy();
+			_enemies.add(enemy);
 		}
 
-		/******* CREATE PARTICLE EMITTERS *******/
+		add(_enemies);
 
-		//setMotion(Angle:Float, Distance:Float, Lifespan:Float, ?AngleRange:Float = 0, ?DistanceRange:Float = 0, ?LifespanRange:Float = 0):Void
+		/* create particles		*/
 
 		_explosion = new FlxEmitterExt();
-
 		_explosion.setRotation(0,0);
 		_explosion.setXSpeed(300,500);
 		_explosion.setYSpeed(300,500);
@@ -111,27 +105,22 @@ class PlayState extends FlxState
 		_explosion.makeParticles("assets/images/particle.png", 100, 0, false, 0);
 		_explosion.setAlpha(1,1,0,0);
 
-		/******* CREATE HUD *******/
+		add(_explosion);
+
+		/* create HUD 		*/
+
 		Reg.score = 0;
 		_hud = new HUD();
+		add(_hud);
 
-		/******* CREATE SOUND *******/
+		/* create sounds/music		*/
 
 		FlxG.sound.playMusic(AssetPaths.atownsyear__wav, 1, true);
 		_sndDie = FlxG.sound.load(AssetPaths.die__wav);
 		_sndKill = FlxG.sound.load(AssetPaths.kill__wav);
-
-		/******* ADD ALL OBJECTS *******/
-		add(_player);
-		add(_ground);
-		add(_obstacles);
-		add(_explosion);
-		add(_hud);
 		
-		//bg color (still havent found out that value type tho)
+		//(still havent found out that value type tho)
 		FlxG.camera.bgColor = 0xff131c1b;
-
-		// FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER, 1);
 		FlxG.worldBounds.set((_player.x - FlxG.width/2) + 16, 0, (_player.x + FlxG.width/2), FlxG.height);
 
 		super.create();
@@ -145,7 +134,7 @@ class PlayState extends FlxState
 	{
 		_player.destroy();
 		_ground.destroy();
-		_obstacles.destroy();
+		_enemies.destroy();
 		_explosion.destroy();
 		_hud.destroy();
 		super.destroy();
@@ -158,16 +147,14 @@ class PlayState extends FlxState
 	{
 		super.update();
 
-		
-
 		//Trace Tests
-		// trace(_player.y);
-		// trace(_player.x);
-		// trace(_ground);
-		// trace(_groundWidth);
-		// trace(FlxG.worldBounds);
-		// trace(FlxG.worldBounds.width);
-		// trace(FlxG.worldBounds.x);
+			// trace(_player.y);
+			// trace(_player.x);
+			// trace(_ground);
+			// trace(_groundWidth);
+			// trace(FlxG.worldBounds);
+			// trace(FlxG.worldBounds.width);
+			// trace(FlxG.worldBounds.x);
 
 		//Camera Movement
 		FlxG.camera.scroll.x = _player.x - cameraOffset_x;
@@ -175,8 +162,8 @@ class PlayState extends FlxState
 
 		//Collisions
 		FlxG.collide(_player, _ground);
-		FlxG.overlap(_player, _obstacles, playerTouchObstacle);
-		FlxG.overlap(_player.sword, _obstacles, playerAttackObstacle);
+		FlxG.overlap(_player, _enemies, playerTouchObstacle);
+		FlxG.overlap(_player.sword, _enemies, playerAttackObstacle);
 
 		//Bounds Update
 		FlxG.worldBounds.set((_player.x - FlxG.width/2) + 16, 0, (_player.x + FlxG.width/2), FlxG.height);
@@ -206,8 +193,6 @@ class PlayState extends FlxState
 
 		//HUD Update
 		_hud.updateHUD(Reg.score, _alive);
-
-
 		
 	}	
 
@@ -223,7 +208,7 @@ class PlayState extends FlxState
 	private function createObstacle():Void
 	{
 		trace("created");
-		var obstacle = _obstacles.recycle(Enemy);
+		var obstacle = _enemies.recycle(Enemy);
 		obstacle.x = _groundWidth + 20;
 		obstacle.y = FlxG.height - 32;
 	}
@@ -234,7 +219,6 @@ class PlayState extends FlxState
 		_sndDie.play();
 		P.kill();
 		_alive = false;
-		_timer.stop();
 	}
 
 	private function playerAttackObstacle(S:FlxSprite, E:Enemy):Void{
