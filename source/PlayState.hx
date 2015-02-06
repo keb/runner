@@ -54,21 +54,24 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 
-		/* create timer 		*/
+		/** 
+		* create timer
+		*/
 
 		_timeStart = FlxG.elapsed * 1000;
 		_currentTime = FlxG.elapsed * 1000;
 
+		/** 
+		* create player
+		*/
 
-		/* player attributes 		*/
-
-		//starting position
 		_player = new Player(FlxG.width/2, 400);
 		add(_player);
 
-		/* create ground pool		*/
+		/** 
+		* create ground pool
+		*/
 
-		//Intialize starting groundWidth & poolsize for ground creation
 		var ground_poolSize = 50;
 		_groundWidth = 0;
 		_ground = new FlxSpriteGroup(0,0,ground_poolSize);
@@ -84,7 +87,10 @@ class PlayState extends FlxState
 
 		add(_ground);
 
-		/* create enemy pool 		*/
+		/** 
+		* create enemy pool
+		*/
+		
 		var enemy_poolSize = 10;
 		_enemies = new FlxSpriteGroup(0,0,enemy_poolSize);
 
@@ -95,7 +101,9 @@ class PlayState extends FlxState
 
 		add(_enemies);
 
-		/* create particles		*/
+		/** 
+		* create particles
+		*/
 
 		_explosion = new FlxEmitterExt();
 		_explosion.setRotation(0,0);
@@ -107,13 +115,17 @@ class PlayState extends FlxState
 
 		add(_explosion);
 
-		/* create HUD 		*/
+		/** 
+		* create HUD
+		*/
 
 		Reg.score = 0;
 		_hud = new HUD();
 		add(_hud);
 
-		/* create sounds/music		*/
+		/** 
+		* create sound/music
+		*/
 
 		FlxG.sound.playMusic(AssetPaths.atownsyear__wav, 1, true);
 		_sndDie = FlxG.sound.load(AssetPaths.die__wav);
@@ -181,7 +193,7 @@ class PlayState extends FlxState
 			_timeStart += 60000/_bpm;
 		}
 
-		callEnemy(); //used for testing; spawn enemy at will
+		callEnemy();
 
 		//PlayState Update
 		//If Dead, Press R to Restart
