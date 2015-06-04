@@ -52,7 +52,9 @@ class Player extends FlxSprite
 		//Player Controls
 		jump();
 		attack();
+		// duck();
 
+		// updateHitbox();
 		super.update();
 	}	
 	
@@ -135,6 +137,24 @@ class Player extends FlxSprite
 			_attackDuration = 0;
 		}
 
+	}
+
+	private function duck():Void{
+		var _duck:Bool = false;
+
+		//Controls
+		_duck = FlxG.keys.anyPressed(["DOWN"]);
+
+		if(_duck){
+			// setGraphicSize(Std.int(width), Std.int(height/2));
+			height = height / 2;
+			scale.set(1.0, 0.5);
+			offset.set(16, 8);
+		}
+
+		else{
+			resetSize();
+		}
 	}
 
 }
