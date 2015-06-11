@@ -16,7 +16,7 @@ import flixel.effects.particles.FlxEmitterExt;
 import flixel.system.FlxSound;
 
 /**
- * A FlxState which can be used for the actual gameplay. test
+ * A FlxState which can be used for the actual gameplay.
  */
 class PlayState extends FlxState
 {
